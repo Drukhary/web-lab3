@@ -12,33 +12,36 @@ import lombok.Data;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class ManagedPointBean implements Serializable {
     public ManagedPointBean(){
-        points = elementInfoDAO.findAllElementInfos();
+        points = ElementInfoDAO.findAllElementInfos();
         resultMessage="";
     }
     private Node node = new Node();
-    private ElementInfoDAO elementInfoDAO = new ElementInfoDAO();
-    private List<ElementInfo> points;
-    private boolean result;
+    private List<ElementInfo> points = new ArrayList<ElementInfo>();
     private String resultMessage;
 
 
     public synchronized void addPoint() {
         try {
-//            node.setY(Double.parseDouble(node.getRaw_y()));
             AreaChecker.CheckRange(node);
             ElementInfo elementInfo = AreaChecker.AreaCheck(node);
-            elementInfoDAO.saveElementInfo(elementInfo);
+            ElementInfoDAO.saveElementInfo(elementInfo);
             points.add(elementInfo);
-            result = elementInfo.isResult();
-            resultMessage = result ? AreaCheckConstants.POSITIVE_RESULT:AreaCheckConstants.NEGATIVE_RESULT;
+            resultMessage = elementInfo.isResult() ? AreaCheckConstants.POSITIVE_RESULT:AreaCheckConstants.NEGATIVE_RESULT;
             node = new Node();
         } catch (OutOfRangeException e){
             resultMessage=e.getMessage();
         }
+    }
+    public synchronized void deleteAllElements(){
+        ElementInfoDAO.deleteElementInfos();
+        points = new ArrayList<ElementInfo>();
+        node = new Node();
+        resultMessage=null;
     }
 }

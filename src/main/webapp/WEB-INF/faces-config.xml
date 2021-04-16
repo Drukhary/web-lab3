@@ -4,33 +4,20 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
                                   http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
-<!--    <navigation-rule>-->
-<!--        <from-view-id>/views/index.xhtml</from-view-id>-->
-<!--        <navigation-case>-->
-<!--            <from-action>#{managedPointBean.addPoint()}</from-action>-->
-<!--            <from-outcome>commandCheckPoint</from-outcome>-->
-<!--            <to-view-id>/views/index.xhtml</to-view-id>-->
-<!--        </navigation-case>-->
-<!--    </navigation-rule>-->
     <navigation-rule>
         <from-view-id>/views/start.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{navigationController.moveToIndex}</from-action>
+            <from-outcome>index</from-outcome>
             <to-view-id>/views/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/views/index.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{navigationController.moveToStart}</from-action>
+            <from-outcome>start</from-outcome>
             <to-view-id>/views/start.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    <managed-bean>
-        <managed-bean-name>navigationController</managed-bean-name>
-        <managed-bean-class>drukhary.web.laba3.managedBeans.NavigationController</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
     <managed-bean>
         <managed-bean-name>managedPointBean</managed-bean-name>
         <managed-bean-class>drukhary.web.laba3.managedBeans.ManagedPointBean</managed-bean-class>

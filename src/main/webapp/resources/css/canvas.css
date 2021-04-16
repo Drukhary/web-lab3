@@ -1,16 +1,14 @@
 #graphic{
     display: grid;
     grid-row-start:1;
-    grid-row-end:2;
+    grid-row-end:4;
     grid-column-start:1;
-    grid-column-end:2;
-    height: 400px;
-    width: 400px;
+    grid-column-end:4;
 }
 #graphic canvas{
     height: 400px;
     width: 400px;
-    grid-area: 1 / 1 / 2 / 2;
+    grid-area: 2 / 2 / 3 / 3;
 }
 
 #GraphicCanvas{

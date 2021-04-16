@@ -83,7 +83,7 @@ function DrawPoints(){
         DrawPoint(
             graphicCanvas.width / 2 + parseFloat(coordinate[i * 6 + 2].innerText) / 6.25 * (graphicCanvas.width / 2),
             graphicCanvas.height / 2 - parseFloat(coordinate[i * 6 + 3].innerText) / 6.25 * (graphicCanvas.height / 2),
-            coordinate[i * 6 + 5].innerText==="true"
+            coordinate[i * 6 + 5].innerText==="Точка входит в область"
         );
     } // drawing every points on the graph
 }
@@ -135,30 +135,35 @@ function ShowCoordinates(e) {
 function HideCoordinates() {
     coordinates.innerHTML = "";
 }
+function PleaseChooseRadius(){
+    document.querySelector("#pointsForm\\:messageRadius").innerText = "Выберите, пожалуйста, радиус";
+}
 
 function ChangedRadius(elem,radius){
     ClearFigures();
     ClearPoints();
     graphic.removeEventListener("click",CheckPoint);
-    form.elements["pointsForm:radius"].value = 0;
-    hiddenForm.elements["hiddenPointsForm:hiddenR"].value=0;
+    graphic.addEventListener("click",PleaseChooseRadius);
+    form.elements["pointsForm:radius"].value = "0.0";
+    hiddenForm.elements["hiddenPointsForm:hiddenR"].value = "0.0";
     if (elem.checked===true) {
         document.querySelectorAll('#radiusCheckBox input[type=checkbox]').forEach(checkbox => checkbox.checked = false);
         elem.checked=true;
         form.elements["pointsForm:radius"].value = radius;
         hiddenForm.elements["hiddenPointsForm:hiddenR"].value=radius;
+        document.querySelector("#pointsForm\\:messageRadius").innerText = "";
         DrawFigures(parseFloat(radius));
+        graphic.removeEventListener("click",PleaseChooseRadius);
         graphic.addEventListener("click",CheckPoint);
         DrawPoints();
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    DrawGraphic();
-    graphic.addEventListener("mousemove", ShowCoordinates);
-    graphic.addEventListener("mouseout", HideCoordinates);
-    //default value
-    form.elements["pointsForm:radius"].value = "0.0";
-    hiddenForm.elements["hiddenPointsForm:hiddenR"].value="0.0";
-    document.querySelector("#resultMessage").innerText=null;
-});
+DrawGraphic();
+graphic.addEventListener("mousemove", ShowCoordinates);
+graphic.addEventListener("mouseout", HideCoordinates);
+//default value
+form.elements["pointsForm:radius"].value = "0.0";
+hiddenForm.elements["hiddenPointsForm:hiddenR"].value="0.0";
+document.querySelector("#resultMessage").innerText=null;
+graphic.addEventListener("click",PleaseChooseRadius);

@@ -2,6 +2,7 @@ package drukhary.web.laba3.model;
 
 import drukhary.web.laba3.AreaCheckingExeption.OutOfRangeException;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 public class AreaChecker {
@@ -12,7 +13,7 @@ public class AreaChecker {
         elementInfo.setY(node.getY());
         elementInfo.setRadius(node.getRadius());
         elementInfo.setResult(AreaCheckCondition(node));
-        elementInfo.setDate(java.sql.Date.valueOf(LocalDate.now()));
+        elementInfo.setInstant(Instant.now());
         elementInfo.setProcessTime((System.nanoTime() - start) / 1000000000.);
         return elementInfo;
     }

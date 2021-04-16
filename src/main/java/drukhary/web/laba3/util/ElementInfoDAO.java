@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ElementInfoDAO {
-    public void saveElementInfo(ElementInfo elementInfo) {
+    public static void saveElementInfo(ElementInfo elementInfo) {
         try {
             PreparedStatement pst = JDBCConnectionFactory.getConnection().prepareStatement("INSERT INTO \"elements\" " +
                     "(date,\"processTime\",x, y, radius, result)" +
                     " VALUES(?, ?, ?, ?, ?, ?);");
-            pst.setDate(1, elementInfo.getDate());
+            pst.setTimestamp(1, Timestamp.from(elementInfo.getInstant()));
             pst.setDouble(2, elementInfo.getProcessTime());
             pst.setDouble(3, elementInfo.getY());
             pst.setDouble(4, elementInfo.getX());
@@ -23,7 +23,7 @@ public class ElementInfoDAO {
             System.out.println(e.getMessage());
         }
     }
-    public List<ElementInfo> findAllElementInfos() {
+    public static List<ElementInfo> findAllElementInfos() {
         List<ElementInfo> elementInfos = new ArrayList<ElementInfo>();
         try {
             PreparedStatement prepareStatement = JDBCConnectionFactory.getConnection().prepareStatement("SELECT "+
@@ -33,7 +33,7 @@ public class ElementInfoDAO {
             ResultSet result = prepareStatement.getResultSet();
             while(result.next()) {
                 ElementInfo elementInfo = new ElementInfo();
-                elementInfo.setDate(result.getDate("date"));
+                elementInfo.setInstant(result.getTimestamp("date").toInstant());
                 elementInfo.setProcessTime(result.getDouble("processTime"));
                 elementInfo.setX(result.getDouble("x"));
                 elementInfo.setY(result.getDouble("y"));
@@ -47,7 +47,7 @@ public class ElementInfoDAO {
         }
         return elementInfos;
     }
-    public void deleteElementInfo(ElementInfo elementInfo) {
+    public static void deleteElementInfos() {
         try {
             PreparedStatement pst = JDBCConnectionFactory.getConnection().prepareStatement("DELETE FROM \"elements\"");
             pst.execute();

@@ -7,10 +7,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
+    <title>Стартовая страница лабораторная работы №3</title>
     <h:outputStylesheet library="css" name="core.css"/>
     <h:outputStylesheet library="css" name="header.css"/>
     <h:outputStylesheet library="css" name="task.css"/>
-
 </h:head>
 <h:body>
     <f:view>
@@ -21,20 +21,16 @@
                 <b>вариант:</b> 3123
             </p>
             <hr/>
+            <h:button outcome="index" value = "Перейти на основную страницу приложения"/>
         </div>
         <div id="core">
-            <div>
-                <h:form>
-                    <h:commandButton action="index" value = "Перейти на основную страницу приложения"/>
-                </h:form>
-            </div>
             <div>
                 <h:outputLabel for="clock" value="Интерактивные часы, обновляющиеся раз в 5 секунд"/> <br/>
                 <h:outputLabel id="clock" value=""/> <br/>
             </div>
         </div>
         <div id="task">
-            <h3>Лабораторная работа #3</h3>
+            <h2>Лабораторная работа #3</h2>
             <p>Разработать приложение на базе JavaServer Faces Framework, которое осуществляет проверку попадания точки в заданную область на координатной плоскости.</p>
             <p>Приложение должно включать в себя 2 facelets-шаблона - стартовую страницу и основную страницу приложения, а также набор управляемых бинов (managed beans), реализующих логику на стороне сервера.</p>
             <p><b>Стартовая страница должна содержать следующие элементы:</b></p>
@@ -62,9 +58,7 @@
                 <li>Конфигурация управляемых бинов должна быть задана с помощью параметров в конфигурационном файле.</li>
                 <li>Правила навигации между страницами приложения должны быть заданы в отдельном конфигурационном файле.</li>
             </ul>
-            <img style="border: 1px solid;"
-                 src="https://se.ifmo.ru/courses/web?p_p_id=iapsportletlab8_WAR_iapsportlet&amp;p_p_lifecycle=2&amp;p_p_state=normal&amp;p_p_mode=view&amp;p_p_cacheability=cacheLevelPage?1618526936316"
-                 alt="График"/>
+            <h:graphicImage library="img" name="areas.png"/>
         </div>
 
     </f:view>
