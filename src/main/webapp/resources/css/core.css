@@ -1,0 +1,16 @@
+body {
+    font-size: 16px;
+}
+#resultMessage {
+    text-align: center;
+}
+#hiddenFields {
+    visibility: hidden;
+    display: none;
+}
+div{
+    min-height: 30px;
+}
+#clock {
+    min-height: 24px;
+}

@@ -1,0 +1,17 @@
+#task {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+    padding-left: 40px!important;
+    margin-top: 50px;
+    float: left;
+    width: 100%;
+}
+#core {
+    text-align: center;
+}
