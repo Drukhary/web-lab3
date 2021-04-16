@@ -15,6 +15,7 @@
         <h:outputStylesheet library="css" name="core.css"/>
         <h:outputStylesheet library="css" name="canvas.css"/>
         <h:outputStylesheet library="css" name="header.css"/>
+        <h:outputScript library="javax.faces" name="jsf.js"/>
         <h:outputScript library="primefaces" name="jquery/jquery.js"/>
     </h:head>
     <h:body>
@@ -25,29 +26,28 @@
                 <b>вариант:</b> 3123
             </p>
             <hr/>
+            <h:button outcome="start" value="Вернуться обратно на стартовую страницу"/>
         </div>
         <div>
-        <h:form>
-            <h:commandButton action="start" value = "Вернуться обратно на стартовую страницу"/>
-        </h:form>
-        </div>
-        <h:form id="pointsForm">
-            <div>
-                <h:outputLabel for="x" value="x: "/>
-                <p:spinner id="x" min="-4" max="4" stepFactor="0.5" value="#{managedPointBean.node.x}"/>
-            </div>
-            <div>
-                <h:outputLabel for="y" value="y: "/>
-                <h:inputText id="y" value="#{managedPointBean.node.y}"
-                             converterMessage="Некорректный ввод. Введите число от -3.0 до 3.0"
-                             validatorMessage="Значение выходит выходит за допустимый диапазон. Введите число от -3.0 до 3.0">
-                    <f:validateDoubleRange minimum="-3"  maximum="3"/>
-                </h:inputText>
-                <h:message id="messageY" for="y" />
-            </div>
-            <div>
-                <h:outputLabel for="radiusCheckBox" value="r: "/>
-                <span id="radiusCheckBox">
+            <h:form id="pointsForm">
+                <div>
+                    <h:outputLabel for="x" value="x: "/>
+                    <p:spinner id="x" min="-4" max="4" stepFactor="0.5" value="#{managedPointBean.node.x}"/>
+                </div>
+                <div>
+                    <h:outputLabel for="y" value="y: "/>
+                    <h:inputText id="y" value="#{managedPointBean.node.y}"
+                                 converterMessage="Некорректный ввод. Введите число от -3.0 до 3.0"
+                                 validatorMessage="Значение выходит выходит за допустимый диапазон. Введите число от -3.0 до 3.0">
+                        <f:validateDoubleRange minimum="-3" maximum="3"/>
+                    </h:inputText>
+                    <div>
+                        <h:message id="messageY" for="y"/>
+                    </div>
+                </div>
+                <div>
+                    <h:outputLabel for="radiusCheckBox" value="r: "/>
+                    <span id="radiusCheckBox">
                     <h:outputLabel for="radius_1" value="1"/>
                     <h:selectBooleanCheckbox id="radius_1" onclick="ChangedRadius(this,1)"/>
                     <h:outputLabel for="radius_2" value="2"/>
@@ -59,27 +59,31 @@
                     <h:outputLabel for="radius_5" value="5"/>
                     <h:selectBooleanCheckbox id="radius_5" onclick="ChangedRadius(this,5)"/>
                 </span>
-                <h:inputHidden id="radius" value="#{managedPointBean.node.radius}"
-                        converterMessage="Вы обязаны выбрать радиус"
-                               validatorMessage="Вы обязаны выбрать радиус"
-                               requiredMessage="Вы обязаны выбрать радиус">
-                    <f:validateDoubleRange minimum="1" maximum="5"/>
-                </h:inputHidden>
-                <h:message id="messageRadius" for="radius"/>
-                <h:message id="messageHiddenRadius" for="hiddenR"/>
-            </div>
-            <h:commandButton id="commandCheckPoint" value="Добавить" action="#{managedPointBean.addPoint()}">
-                <f:ajax execute="pointsForm" render="pointsTable resultMessage messageY messageRadius"/>
-            </h:commandButton>
-        </h:form>
+                    <h:inputHidden id="radius" value="#{managedPointBean.node.radius}"
+                                   converterMessage="Вы обязаны выбрать радиус"
+                                   validatorMessage="Вы обязаны выбрать радиус"
+                                   requiredMessage="Вы обязаны выбрать радиус">
+                        <f:validateDoubleRange minimum="1" maximum="5"/>
+                    </h:inputHidden>
+                    <div>
+                        <h:message id="messageRadius" for="radius"/>
+                        <h:message id="messageHiddenRadius" for="hiddenR"/>
+                    </div>
+                </div>
+                <h:commandButton id="commandCheckPoint" value="Добавить" action="#{managedPointBean.addPoint()}">
+                    <f:ajax execute="pointsForm" render="pointsTable resultMessage messageY messageRadius"/>
+                </h:commandButton>
+            </h:form>
+            <br/>
+        </div>
         <div id="hiddenFields">
             <h:form id="hiddenPointsForm">
                 <h:inputHidden id="hiddenX" value="#{managedPointBean.node.x}"/>
                 <h:inputHidden id="hiddenY" value="#{managedPointBean.node.y}"/>
                 <h:inputHidden id="hiddenR" value="#{managedPointBean.node.radius}"
-                    converterMessage="Вы обязаны выбрать радиус"
-                    validatorMessage="Вы обязаны выбрать радиус"
-                    requiredMessage="Вы обязаны выбрать радиус">
+                               converterMessage="Вы обязаны выбрать радиус"
+                               validatorMessage="Вы обязаны выбрать радиус"
+                               requiredMessage="Вы обязаны выбрать радиус">
                     <f:validateDoubleRange minimum="1" maximum="5"/>
                 </h:inputHidden>
                 <h:commandButton id="hiddenCommandCheckPoint" action="#{managedPointBean.addPoint}">
@@ -96,14 +100,14 @@
         <div>
             <h:outputText id="coordinates" value=""/>
         </div>
-        <div>
+        <div style="text-align: center">
             <h:outputText id="resultMessage" value="#{managedPointBean.resultMessage}"/>
         </div>
         <h:panelGroup id="pointsTable">
             <h:dataTable value="#{managedPointBean.points}" var="node">
                 <h:column>
                     <f:facet name="header">Дата запроса</f:facet>
-                    #{node.formatDate}
+                    #{node.formatInstant}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Время исполнения</f:facet>
@@ -127,6 +131,11 @@
                 </h:column>
             </h:dataTable>
         </h:panelGroup>
+        <h:form>
+            <h:commandButton value="Очистить базу данных" action="#{managedPointBean.deleteAllElements}">
+                <f:ajax render="pointsTable resultMessage messageY messageRadius"/>
+            </h:commandButton>
+        </h:form>
         <h:outputScript library="js" name="script.js"/>
     </h:body>
 </f:view>
