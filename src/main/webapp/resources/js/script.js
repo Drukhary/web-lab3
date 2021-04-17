@@ -2,8 +2,8 @@ function ClearGraphic() {
     canvasContext.clearRect(0, 0, graphicCanvas.width, graphicCanvas.height);
     figuresContext.clearRect(0, 0, graphicCanvas.width, graphicCanvas.height);
     pointsContext.clearRect(0, 0, graphicCanvas.width, graphicCanvas.height);
-    graphic.removeEventListener("mousemove", ShowCoordinates);
-    graphic.removeEventListener("mouseout", HideCoordinates);
+    graphicCanvas.removeEventListener("mousemove", ShowCoordinates);
+    graphicCanvas.removeEventListener("mouseout", HideCoordinates);
 }
 function ClearFigures() {
     figuresContext.clearRect(0, 0, graphicCanvas.width, graphicCanvas.height);
@@ -106,7 +106,6 @@ const hiddenForm = document.querySelector("#hiddenPointsForm");
 let graphicCanvas = document.querySelector("#GraphicCanvas");
 let graphicFigures = document.querySelector("#GraphicFigures");
 let graphicPoints = document.querySelector("#GraphicPoints");
-let graphic = document.querySelector("#graphic");
 
 let canvasContext = graphicCanvas.getContext('2d');
 let figuresContext = graphicFigures.getContext('2d');
@@ -142,8 +141,8 @@ function PleaseChooseRadius(){
 function ChangedRadius(elem,radius){
     ClearFigures();
     ClearPoints();
-    graphic.removeEventListener("click",CheckPoint);
-    graphic.addEventListener("click",PleaseChooseRadius);
+    graphicPoints.removeEventListener("click",CheckPoint);
+    graphicPoints.addEventListener("click",PleaseChooseRadius);
     form.elements["pointsForm:radius"].value = "0.0";
     hiddenForm.elements["hiddenPointsForm:hiddenR"].value = "0.0";
     if (elem.checked===true) {
@@ -153,17 +152,19 @@ function ChangedRadius(elem,radius){
         hiddenForm.elements["hiddenPointsForm:hiddenR"].value=radius;
         document.querySelector("#pointsForm\\:messageRadius").innerText = "";
         DrawFigures(parseFloat(radius));
-        graphic.removeEventListener("click",PleaseChooseRadius);
-        graphic.addEventListener("click",CheckPoint);
+        graphicPoints.removeEventListener("click",PleaseChooseRadius);
+        graphicPoints.addEventListener("click",CheckPoint);
         DrawPoints();
     }
 }
 
-DrawGraphic();
-graphic.addEventListener("mousemove", ShowCoordinates);
-graphic.addEventListener("mouseout", HideCoordinates);
+document.addEventListener('DOMContentLoaded', () => {
+    DrawGraphic();
+    graphicPoints.addEventListener("mousemove", ShowCoordinates);
+    graphicPoints.addEventListener("mouseout", HideCoordinates);
 //default value
-form.elements["pointsForm:radius"].value = "0.0";
-hiddenForm.elements["hiddenPointsForm:hiddenR"].value="0.0";
-document.querySelector("#resultMessage").innerText=null;
-graphic.addEventListener("click",PleaseChooseRadius);
+    form.elements["pointsForm:radius"].value = "0.0";
+    hiddenForm.elements["hiddenPointsForm:hiddenR"].value="0.0";
+    document.querySelector("#resultMessage").innerText=null;
+    graphicPoints.addEventListener("click",PleaseChooseRadius);
+})
