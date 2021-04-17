@@ -1,4 +1,4 @@
-package drukhary.web.laba3.model;
+package drukhary.web.laba3.managedBeans;
 import lombok.Data;
 
 import java.io.Serializable;

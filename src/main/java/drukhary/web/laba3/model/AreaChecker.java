@@ -1,9 +1,9 @@
 package drukhary.web.laba3.model;
 
 import drukhary.web.laba3.AreaCheckingExeption.OutOfRangeException;
+import drukhary.web.laba3.managedBeans.Node;
 
 import java.time.Instant;
-import java.time.LocalDate;
 
 public class AreaChecker {
     public static ElementInfo AreaCheck(Node node){

@@ -1,15 +1,17 @@
-package drukhary.web.laba3.util;
+package drukhary.web.laba3.managedBeans;
 
 import drukhary.web.laba3.model.ElementInfo;
+import drukhary.web.laba3.util.JDBCConnectionFactory;
 
+import javax.naming.NamingException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ElementInfoDAO {
-    public static void saveElementInfo(ElementInfo elementInfo) {
-        try {
-            PreparedStatement pst = JDBCConnectionFactory.getConnection().prepareStatement("INSERT INTO \"elements\" " +
+    public void saveElementInfo(ElementInfo elementInfo) throws SQLException, NamingException {
+            Connection connection = JDBCConnectionFactory.getInstance().getConnection();
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO \"elements\" " +
                     "(date,\"processTime\",x, y, radius, result)" +
                     " VALUES(?, ?, ?, ?, ?, ?);");
             pst.setTimestamp(1, Timestamp.from(elementInfo.getInstant()));
@@ -19,17 +21,17 @@ public class ElementInfoDAO {
             pst.setDouble(5, elementInfo.getRadius());
             pst.setBoolean(6, elementInfo.isResult());
             pst.execute();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+            pst.close();
+            connection.close();
     }
-    public static List<ElementInfo> findAllElementInfos() {
+    public List<ElementInfo> findAllElementInfos() throws SQLException, NamingException {
         List<ElementInfo> elementInfos = new ArrayList<ElementInfo>();
-        try {
-            PreparedStatement prepareStatement = JDBCConnectionFactory.getConnection().prepareStatement("SELECT "+
+            Connection connection = JDBCConnectionFactory.getInstance().getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement("SELECT "+
                     "date,\"processTime\",x, y, radius, result, id" +
                     " FROM \"elements\";");
             prepareStatement.execute();
+
             ResultSet result = prepareStatement.getResultSet();
             while(result.next()) {
                 ElementInfo elementInfo = new ElementInfo();
@@ -42,17 +44,15 @@ public class ElementInfoDAO {
                 elementInfo.setId(result.getInt("id"));
                 elementInfos.add(elementInfo);
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+            prepareStatement.close();
+            result.close();
+            connection.close();
         return elementInfos;
     }
-    public static void deleteElementInfos() {
-        try {
-            PreparedStatement pst = JDBCConnectionFactory.getConnection().prepareStatement("DELETE FROM \"elements\"");
-            pst.execute();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+    public void deleteElementInfos() throws SQLException, NamingException {
+            Connection connection = JDBCConnectionFactory.getInstance().getConnection();
+            PreparedStatement prepareStatement = connection.prepareStatement("DELETE FROM \"elements\"");
+            prepareStatement.close();
+            connection.close();
     }
 }

@@ -1,6 +1,6 @@
 package drukhary.web.laba3.util;
 
-import javax.naming.Context;
+import javax.annotation.Resource;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -8,25 +8,22 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class JDBCConnectionFactory {
-
-    private static Connection connection=null;
-
-    private static void connectWithDS() {
-        try {
-            Context ctx = new InitialContext();
-            DataSource ds = (DataSource)ctx.lookup("java:/PostgresDS");
-
-            connection = ds.getConnection();
-        } catch (SQLException | NamingException e) {
-            e.printStackTrace();
-        }
+    private JDBCConnectionFactory() throws NamingException{
+            dataSource = (DataSource)(new InitialContext()).lookup("java:/PostgresDS");
     }
 
+    private static JDBCConnectionFactory instance;
+    @Resource(lookup = "java:/PostgresDS")
+    private static DataSource dataSource;
 
-    public static Connection getConnection() {
-        if (connection==null) {
-                connectWithDS();
+    public static JDBCConnectionFactory getInstance() throws NamingException {
+        if (instance == null) {
+            instance = new JDBCConnectionFactory();
         }
-        return connection;
+        return instance;
+    }
+
+    public Connection getConnection() throws SQLException{
+        return dataSource.getConnection();
     }
 }
