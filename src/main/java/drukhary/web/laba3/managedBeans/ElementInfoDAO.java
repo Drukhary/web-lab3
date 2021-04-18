@@ -1,16 +1,19 @@
 package drukhary.web.laba3.managedBeans;
 
 import drukhary.web.laba3.model.ElementInfo;
-import drukhary.web.laba3.util.JDBCConnectionFactory;
 
+import javax.annotation.Resource;
 import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-public class ElementInfoDAO {
-    public void saveElementInfo(ElementInfo elementInfo) throws SQLException, NamingException {
-            Connection connection = JDBCConnectionFactory.getInstance().getConnection();
+public class ElementInfoDAO implements Serializable {
+    @Resource(lookup = "java:/PostgresDS")
+    private DataSource dataSource;
+    public void saveElementInfo(ElementInfo elementInfo) throws SQLException, NoSuchFieldException {
+            Connection connection = dataSource.getConnection();
             PreparedStatement pst = connection.prepareStatement("INSERT INTO \"elements\" " +
                     "(date,\"processTime\",x, y, radius, result)" +
                     " VALUES(?, ?, ?, ?, ?, ?);");
@@ -24,9 +27,9 @@ public class ElementInfoDAO {
             pst.close();
             connection.close();
     }
-    public List<ElementInfo> findAllElementInfos() throws SQLException, NamingException {
+    public List<ElementInfo> findAllElementInfos() throws SQLException, NamingException, NoSuchFieldException {
         List<ElementInfo> elementInfos = new ArrayList<ElementInfo>();
-            Connection connection = JDBCConnectionFactory.getInstance().getConnection();
+            Connection connection = dataSource.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement("SELECT "+
                     "date,\"processTime\",x, y, radius, result, id" +
                     " FROM \"elements\";");
@@ -49,9 +52,10 @@ public class ElementInfoDAO {
             connection.close();
         return elementInfos;
     }
-    public void deleteElementInfos() throws SQLException, NamingException {
-            Connection connection = JDBCConnectionFactory.getInstance().getConnection();
+    public void deleteElementInfos() throws SQLException, NamingException, NoSuchFieldException {
+            Connection connection = dataSource.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement("DELETE FROM \"elements\"");
+            prepareStatement.execute();
             prepareStatement.close();
             connection.close();
     }

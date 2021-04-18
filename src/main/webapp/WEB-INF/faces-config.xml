@@ -42,7 +42,7 @@
             <value>#{node}</value>
         </managed-property>
         <managed-property>
-            <property-name>elemInfoDao</property-name>
+            <property-name>elementInfoDAO</property-name>
             <property-class>drukhary.web.laba3.managedBeans.ElementInfoDAO</property-class>
             <value>#{elementInfoDAO}</value>
         </managed-property>

@@ -1,11 +1,7 @@
 package drukhary.web.laba3.model;
 
-import javax.persistence.Table;
-import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
