@@ -3,7 +3,6 @@ package drukhary.web.laba3.managedBeans;
 import drukhary.web.laba3.model.ElementInfo;
 
 import javax.annotation.Resource;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.io.Serializable;
 import java.sql.*;
@@ -12,7 +11,7 @@ import java.util.List;
 public class ElementInfoDAO implements Serializable {
     @Resource(lookup = "java:/PostgresDS")
     private DataSource dataSource;
-    public void saveElementInfo(ElementInfo elementInfo) throws SQLException, NoSuchFieldException {
+    public void saveElementInfo(ElementInfo elementInfo) throws SQLException {
             Connection connection = dataSource.getConnection();
             PreparedStatement pst = connection.prepareStatement("INSERT INTO \"elements\" " +
                     "(date,\"processTime\",x, y, radius, result)" +
@@ -27,7 +26,7 @@ public class ElementInfoDAO implements Serializable {
             pst.close();
             connection.close();
     }
-    public List<ElementInfo> findAllElementInfos() throws SQLException, NamingException, NoSuchFieldException {
+    public List<ElementInfo> findAllElementInfos() throws SQLException {
         List<ElementInfo> elementInfos = new ArrayList<ElementInfo>();
             Connection connection = dataSource.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement("SELECT "+
@@ -52,7 +51,7 @@ public class ElementInfoDAO implements Serializable {
             connection.close();
         return elementInfos;
     }
-    public void deleteElementInfos() throws SQLException, NamingException, NoSuchFieldException {
+    public void deleteElementInfos() throws SQLException {
             Connection connection = dataSource.getConnection();
             PreparedStatement prepareStatement = connection.prepareStatement("DELETE FROM \"elements\"");
             prepareStatement.execute();

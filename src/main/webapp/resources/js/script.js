@@ -122,7 +122,7 @@ function CheckPoint(e){
     hiddenForm.elements["hiddenPointsForm:hiddenY"].value=null;
 }
 let coordinates = document.querySelector("#coordinates");
-
+let resultMessageDiv = document.querySelector("#resultMessageDiv");
 function ShowCoordinates(e) {
     let x = e.pageX - e.target.offsetLeft;
     let y = e.pageY - e.target.offsetTop;
@@ -145,26 +145,28 @@ function ChangedRadius(elem,radius){
     graphicPoints.addEventListener("click",PleaseChooseRadius);
     form.elements["pointsForm:radius"].value = "0.0";
     hiddenForm.elements["hiddenPointsForm:hiddenR"].value = "0.0";
+    resultMessageDiv.style.visibility="hidden";
     if (elem.checked===true) {
-        document.querySelectorAll('#radiusCheckBox input[type=checkbox]').forEach(checkbox => checkbox.checked = false);
+        document.querySelectorAll('#radiusCheckBox input[type=checkbox]')
+            .forEach(checkbox => checkbox.checked = false);
         elem.checked=true;
+        document.querySelector("#pointsForm\\:messageRadius").innerText=null;
         form.elements["pointsForm:radius"].value = radius;
         hiddenForm.elements["hiddenPointsForm:hiddenR"].value=radius;
-        document.querySelector("#pointsForm\\:messageRadius").innerText = "";
+        resultMessageDiv.style.visibility=null;
         DrawFigures(parseFloat(radius));
         graphicPoints.removeEventListener("click",PleaseChooseRadius);
         graphicPoints.addEventListener("click",CheckPoint);
         DrawPoints();
+
     }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded',()=>{
     DrawGraphic();
     graphicPoints.addEventListener("mousemove", ShowCoordinates);
     graphicPoints.addEventListener("mouseout", HideCoordinates);
-//default value
-    form.elements["pointsForm:radius"].value = "0.0";
-    hiddenForm.elements["hiddenPointsForm:hiddenR"].value="0.0";
-    document.querySelector("#resultMessage").innerText=null;
     graphicPoints.addEventListener("click",PleaseChooseRadius);
 })
+ClearPoints();
+form.elements["pointsForm:radius"].value = "0.0";
+hiddenForm.elements["hiddenPointsForm:hiddenR"].value="0.0";

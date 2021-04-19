@@ -100,13 +100,13 @@
         <div>
             <h:outputText id="coordinates" value=""/>
         </div>
-        <div style="text-align: center">
+        <div id="resultMessageDiv">
             <h:outputText id="resultMessage" value="#{managedPointBean.resultMessage}"/>
         </div>
         <h:panelGroup id="pointsTable">
             <h:dataTable value="#{managedPointBean.points}" var="node">
                 <h:column>
-                    <f:facet name="header">Дата запроса</f:facet>
+                    <f:facet name="header">Дата и время запроса</f:facet>
                     #{node.formatInstant}
                 </h:column>
                 <h:column>

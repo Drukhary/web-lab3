@@ -1,8 +1,6 @@
 package drukhary.web.laba3.managedBeans;
 import lombok.Data;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.NoneScoped;
 import java.io.Serializable;
 
 @Data

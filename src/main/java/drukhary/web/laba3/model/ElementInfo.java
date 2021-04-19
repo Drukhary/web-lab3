@@ -7,9 +7,6 @@ import java.time.format.DateTimeFormatter;
 
 import lombok.Data;
 
-import static drukhary.web.laba3.constant.AreaCheckConstants.NEGATIVE_RESULT;
-import static drukhary.web.laba3.constant.AreaCheckConstants.POSITIVE_RESULT;
-
 //@Entity
 //@Table(name= "elements")
 @Data
@@ -34,7 +31,7 @@ public class ElementInfo implements Serializable {
 
     public String getFormatInstant() { return dateTimeFormatter.format(instant.atZone(ZoneId.systemDefault())); }
     public String getFormatResult() {
-        return this.result ? POSITIVE_RESULT : NEGATIVE_RESULT;
+        return this.result ? "Точка входит в область" : "Точка не входит в область";
     }
     public String getFormatProcessTime() { return java.math.BigDecimal.valueOf(this.processTime).toPlainString() + "c"; }
 }

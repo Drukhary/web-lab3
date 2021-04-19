@@ -1,12 +1,11 @@
 package drukhary.web.laba3.managedBeans;
 
 import drukhary.web.laba3.AreaCheckingExeption.OutOfRangeException;
-import drukhary.web.laba3.constant.AreaCheckConstants;
 import drukhary.web.laba3.model.ElementInfo;
 import drukhary.web.laba3.model.AreaChecker;
 import lombok.Data;
 
-import javax.naming.NamingException;
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.List;
 public class ManagedPointBean implements Serializable {
     private ElementInfoDAO elementInfoDAO;
     private Node node;
+
     private List<ElementInfo> points;
     private String resultMessage;
 
@@ -25,10 +25,10 @@ public class ManagedPointBean implements Serializable {
             ElementInfo elementInfo = AreaChecker.AreaCheck(node);
             elementInfoDAO.saveElementInfo(elementInfo);
             points.add(elementInfo);
-            resultMessage = elementInfo.isResult() ? AreaCheckConstants.POSITIVE_RESULT:AreaCheckConstants.NEGATIVE_RESULT;
+            resultMessage = elementInfo.getFormatResult();
             node = new Node();
-        } catch (OutOfRangeException | NoSuchFieldException | SQLException e){
-            resultMessage=e.getMessage();
+        } catch (OutOfRangeException | SQLException e){
+            resultMessage = e.getMessage();
         }
     }
     public synchronized void deleteAllElements(){
@@ -37,8 +37,18 @@ public class ManagedPointBean implements Serializable {
             points = new ArrayList<>();
             node = new Node();
             resultMessage = null;
-        } catch (SQLException | NamingException | NoSuchFieldException e){
+        } catch (SQLException e){
             resultMessage = e.getMessage();
+        }
+    }
+    @PostConstruct
+    public synchronized void init(){
+        try {
+            points =  elementInfoDAO.findAllElementInfos();
+        } catch (SQLException e){
+            resultMessage = e.getMessage();
+            points = new ArrayList<>();
+//            FacesContext.getCurrentInstance().addMessage();
         }
     }
 }

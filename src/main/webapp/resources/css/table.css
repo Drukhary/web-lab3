@@ -6,11 +6,12 @@ table {
 
 table thead th {
     font-weight: bold;
+    font-style: italic;
     text-align: left;
     border: none;
     padding: 10px 15px;
     background: #d8d8d8;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 table thead tr th:first-child {
@@ -25,7 +26,7 @@ table tbody td {
     text-align: left;
     border: none;
     padding: 10px 15px;
-    font-size: 14px;
+    font-size: 16px;
     vertical-align: top;
 }
 

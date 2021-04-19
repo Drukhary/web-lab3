@@ -1,11 +1,10 @@
 body {
-    font-size: 18px;
+    font-size: 21px;
 }
-h2,#resultMessage,#pointsForm{
+h2,#resultMessage,#pointsForm,#resultMessageDiv{
     text-align:center;
 }
 #hiddenFields {
-    visibility: hidden;
     display: none;
 }
 div{
